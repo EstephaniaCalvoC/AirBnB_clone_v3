@@ -10,8 +10,8 @@ from models.state import State
 app = Flask(__name__)
 
 
-@app_views.route('/states/', methods=['GET'])
-@app_views.route('/states/<state_id>', methods=['GET'])
+@app_views.route('/states', methods=['GET'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def get_states(state_id=None):
     """ Function that get all states and states id """
     if state_id is None:
@@ -24,7 +24,7 @@ def get_states(state_id=None):
     return jsonify(get_state.to_dict())
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'])
+@app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
 def delete_state(state_id=None):
     """ Function that delete a state by id """
     del_state = storage.all("State").values()
@@ -38,7 +38,7 @@ def delete_state(state_id=None):
     return (jsonify({}), 200)
 
 
-@app_views.route('/states/', methods=['POST'])
+@app_views.route('/states', methods=['POST'], strict_slashes=False)
 def post_states():
     """ Function that create a states """
     post_data = request.get_json()
@@ -52,7 +52,7 @@ def post_states():
     return jsonify(new_state.to_dict()), 201
 
 
-@app_views.route('/states/<state_id>', methods=['PUT'])
+@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def put_state(state_id):
     """ Fuction that update de states """
     set_state = storage.get(State, state_id)
@@ -63,7 +63,7 @@ def put_state(state_id):
         return jsonify({'error': 'Not a JSON'}), 400
 
     for key, value in put_data.items():
-        if key != "id" or key != "created_at" or key != "updated_at":
+        if key != "id" and key != "created_at" and key != "updated_at":
             setattr(set_state, key, value)
     set_state.save()
     return jsonify(set_state.to_dict())
