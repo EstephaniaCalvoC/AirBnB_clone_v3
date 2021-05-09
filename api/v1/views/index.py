@@ -14,6 +14,7 @@ clases = {
         "users": "User"
     }
 
+
 @app_views.route("/status")
 def status():
     """return status in json"""
