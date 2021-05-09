@@ -11,7 +11,7 @@ from models.amenity import Amenity
 app = Flask(__name__)
 
 
-@app_views.route('/amenities', methods=['GET'])
+@app_views.route('/amenities', methods=['GET'], strict_slashes=False)
 def all_amenities():
     """ All amenity """
     amenitys = []
@@ -20,7 +20,8 @@ def all_amenities():
     return jsonify(amenitys)
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['GET'])
+@app_views.route('/amenities/<amenity_id>', methods=['GET'],
+                 strict_slashes=False)
 def amenity_id(amenity_id=None):
     """ amenity by id """
     get_amenity = storage.get(Amenity, amenity_id)
@@ -29,7 +30,8 @@ def amenity_id(amenity_id=None):
     return jsonify(get_amenity.to_dict())
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['DELETE'])
+@app_views.route('/amenities/<amenity_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def delete_amenities(amenity_id=None):
     """ Function that delete amenity by id"""
     del_amenity = storage.all("Amenity").values()
@@ -43,7 +45,7 @@ def delete_amenities(amenity_id=None):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route('/amenities', methods=['POST'])
+@app_views.route('/amenities', methods=['POST'], strict_slashes=False)
 def post_amenities():
     """function that create amenities"""
     post_data = request.get_json()
@@ -57,7 +59,8 @@ def post_amenities():
     return make_response(jsonify(new_amenity.to_dict()), 201)
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['PUT'])
+@app_views.route('/amenities/<amenity_id>', methods=['PUT'],
+                 strict_slashes=False)
 def put_amenities(amenity_id):
     """Fuction that update amenities"""
     set_amenity = storage.get(Amenity, amenity_id)
@@ -68,7 +71,7 @@ def put_amenities(amenity_id):
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
 
     for key, value in put_data.items():
-        if key != "id" or key != "created_at" or key != "updated_at":
+        if key != "id" and key != "created_at" and key != "updated_at":
             setattr(set_amenity, key, value)
     set_amenity.save()
     return jsonify(set_amenity.to_dict())
