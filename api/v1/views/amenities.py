@@ -3,7 +3,7 @@
 
 from api.v1.views import app_views
 from models import storage
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, make_response
 from models.state import State
 from models.city import City
 from models.amenity import Amenity
@@ -40,7 +40,7 @@ def delete_amenities(amenity_id=None):
         if obje.id == amenity_id:
             storage.delete(obje)
             storage.save()
-    return (jsonify({}), 200)
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route('/amenities', methods=['POST'])
@@ -48,13 +48,13 @@ def post_amenities():
     """function that create amenities"""
     post_data = request.get_json()
     if post_data is None:
-        return jsonify({'error': 'Not a JSON'}), 400
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
     new_name = post_data.get('name')
     if new_name is None:
-        return jsonify({'error': 'Missing name'}), 400
+        return make_response(jsonify({'error': 'Missing name'}), 400)
     new_amenity = Amenity(**post_data)
     new_amenity.save()
-    return jsonify(new_amenity.to_dict()), 201
+    return make_response(jsonify(new_amenity.to_dict()), 201)
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'])
@@ -65,7 +65,7 @@ def put_amenities(amenity_id):
         abort(404)
     put_data = request.get_json()
     if put_data is None:
-        return jsonify({'error': 'Not a JSON'}), 400
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
 
     for key, value in put_data.items():
         if key != "id" or key != "created_at" or key != "updated_at":
