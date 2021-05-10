@@ -85,4 +85,4 @@ def put_review(review_id):
         if attr not in ignored:
             setattr(review, attr, val)
     review.save()
-    return jsonify(review.to_dict()), 200)
+    return jsonify(review.to_dict()), 200
