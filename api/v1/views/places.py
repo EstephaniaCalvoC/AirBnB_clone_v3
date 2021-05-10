@@ -46,7 +46,7 @@ def delete_place(place_id):
                  strict_slashes=False)
 def create_place(city_id):
     """Create a place for a city"""
-    cities = storage.get('City', city_id)
+    cities = storage.get(City, city_id)
     if not cities:
         abort(404, "No Cities")
     place = request.get_json()
@@ -54,7 +54,7 @@ def create_place(city_id):
         abort(400, {'Not a JSON'})
     if 'user_id' not in place.keys():
         abort(400, {'Missing user_id'})
-    userid = storage.get('User', place['user_id'])
+    userid = storage.get(User, place['user_id'])
     if not userid:
         abort(404)
     if 'name' not in place:
