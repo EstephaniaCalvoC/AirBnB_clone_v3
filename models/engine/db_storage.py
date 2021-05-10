@@ -79,10 +79,10 @@ class DBStorage:
         """retrieve one object"""
         if cls not in classes.values():
             return None
-        all = models.storage.all(cls)
-        for values in all.values():
-            if values.id == id:
-                return values
+        all_data = models.storage.all(cls)
+        key_data = "{}.{}".format(cls.__name__, id)
+        if key_data in all_data:
+            return all_data.get(key_data)
         return None
 
     def count(self, cls=None):
