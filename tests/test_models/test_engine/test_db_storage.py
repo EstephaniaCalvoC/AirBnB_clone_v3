@@ -6,6 +6,7 @@ Contains the TestDBStorageDocs and TestDBStorage classes
 from datetime import datetime
 import inspect
 import models
+from models import storage
 from models.engine import db_storage
 from models.amenity import Amenity
 from models.base_model import BaseModel
@@ -95,7 +96,6 @@ class TestCountGet(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """set up objects for this class"""
-        storage.delete_all()
         cls.state = State(name="State_test")
         cls.city = City(state_id=cls.state.id,
                         name="City_test")
@@ -130,14 +130,14 @@ class TestCountGet(unittest.TestCase):
 
     def test_count(self):
         """test count(class) function"""
-        count_place = storage.count(User)
+        count_user = storage.count(User)
         n_user = 1
         count_place = storage.count(Place)
         n_place = 2
         count_amenity = storage.count(Amenity)
         n_amenity = 3
-        self.assertEqual(n_user, count_amenity)
-        self.assertEqual(n_place, count_amenity)
+        self.assertEqual(n_user, count_user)
+        self.assertEqual(n_place, count_place)
         self.assertEqual(n_amenity, count_amenity)
 
     def test_count_all(self):
