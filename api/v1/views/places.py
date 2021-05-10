@@ -12,7 +12,7 @@ from models.user import User
                  strict_slashes=False)
 def get_places_by_city(city_id):
     """Return the places by city"""
-    city = storage.get('City', city_id)
+    city = storage.get(City, city_id)
     if not city:
         abort(404)
     places = []
@@ -24,7 +24,7 @@ def get_places_by_city(city_id):
 @app_views.route('/places/<place_id>', methods=['GET'], strict_slashes=False)
 def get_places_by_id(place_id):
     """Return the places by id"""
-    place = storage.get('Place', place_id)
+    place = storage.get(Place, place_id)
     if not place:
         abort(404)
     return jsonify(place.to_dict())
@@ -34,11 +34,11 @@ def get_places_by_id(place_id):
                  strict_slashes=False)
 def delete_place(place_id):
     """Delete a place"""
-    place = storage.get('Place', place_id)
+    place = storage.get(Place, place_id)
     if place:
         storage.delete(place)
         storage.save()
-        return jsonify({})
+        return make_response(jsonify({}), 200)
     abort(404)
 
 
@@ -48,7 +48,7 @@ def create_place(city_id):
     """Create a place for a city"""
     cities = storage.get('City', city_id)
     if not cities:
-        abort(404)
+        abort(404, "No Cities")
     place = request.get_json()
     if not place:
         abort(400, {'Not a JSON'})
@@ -72,7 +72,7 @@ def update_place(place_id):
     place = request.get_json()
     if not place:
         abort(400, {'Not a JSON'})
-    places = storage.get('Place', place_id)
+    places = storage.get(Place, place_id)
     if not places:
         abort(404)
 
