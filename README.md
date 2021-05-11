@@ -61,6 +61,9 @@ Classes inherited from Base Model:
 * `def save(self)` - serializes __objects to the JSON file (path: __file_path)
 * ` def reload(self)` -  deserializes the JSON file to __objects
 
+## /api
+* in this folder we create an api to consume and create each corresponding model.
+
 #### `/tests` directory contains all unit test cases for this project:
 [/test_models/test_base_model.py](/tests/test_models/test_base_model.py) - Contains the TestBaseModel and TestBaseModelDocs classes
 TestBaseModelDocs class:
@@ -126,7 +129,6 @@ TestBaseModel class:
 * `def test_user_module_docstring(self)` - Test for the user.py module docstring
 * `def test_user_class_docstring(self)` - Test for the User class docstring
 
-
 ## Examples of use
 ```
 vagrantAirBnB_clone$./console.py
@@ -156,6 +158,8 @@ No known bugs at this time.
 ## Authors
 Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
 Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
+Estephania Calvo Carvajal - [Github](https://github.com/EstephaniaCalvoC)
+Nicolas Herrera Castro - [Github](https://github.com/nicolasherrerac)
 
 Second part of Airbnb: Joann Vuong
 ## License
